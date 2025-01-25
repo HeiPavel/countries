@@ -52,7 +52,7 @@ export default async function CountriesMain() {
     }
 
     return {
-      name: name.common,
+      name: name.official,
       searchTags: searchTags,
       ...rest
     }
