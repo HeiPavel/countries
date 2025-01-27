@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { Providers } from './providers'
+import {PrimeReactProvider} from 'primereact/api'
 import { Header } from './components/Header'
 import { Nunito_Sans } from 'next/font/google'
 import './globals.css'
@@ -24,7 +25,9 @@ export default function RootLayout({
         <Providers>
           <Header/>
           <main className='grow'>
-            {children}
+            <PrimeReactProvider value={{unstyled: true, pt: {}}}>
+              {children}
+            </PrimeReactProvider>
           </main>
         </Providers>
       </body>

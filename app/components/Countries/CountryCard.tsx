@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { CountryCardType } from './Countries'
+import { CountryPreview } from '@/app/page'
 import { DescriptionItem } from './DescriptionItem'
 
-export function CountryCard({cardData}: {cardData: CountryCardType}) {
+export function CountryCard({cardData}: {cardData: CountryPreview}) {
   const {name, capital, population, cca3, region, flags} = cardData
   const description = {
     population: String(population),
@@ -25,7 +25,7 @@ export function CountryCard({cardData}: {cardData: CountryCardType}) {
           className='object-cover'
         />
       </div>
-      <div className='mt-5 pl-4'>
+      <div className='mt-5 px-4'>
         <p className='dark:text-white-light text-black text-xl font-bold'>{name}</p>
         <div className='flex flex-col gap-1.5 mt-3'>
           {

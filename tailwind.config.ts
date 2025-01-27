@@ -5,6 +5,7 @@ export default {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/primereact/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     screens: {
@@ -31,10 +32,17 @@ export default {
         },
         grey: {
           light: '#2b3743',
-          default: '#212e37'
+          default: '#212e37',
+          medium: '#808080'
+        },
+        blue: {
+          default: '#6366f1'
         },
         black: '#0c1011'
       },
+      boxShadow: {
+        'input': '0 0 0 3px rgb(199, 210, 254)'
+      }
     },
   },
   darkMode: 'class',
