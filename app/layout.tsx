@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en' suppressHydrationWarning>
-      <body className={`${nunito.className} antialiased dark:bg-grey-default bg-white-default flex flex-col min-h-screen`}>
+      <body className={`${nunito.className} antialiased dark:bg-grey-default bg-white-default flex flex-col min-h-screen overflow-y-scroll`}>
         <Providers>
           <Header/>
           <main className='grow'>

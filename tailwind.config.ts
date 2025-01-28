@@ -36,6 +36,7 @@ export default {
           medium: '#808080'
         },
         blue: {
+          light: '#d2dcfc',
           default: '#6366f1'
         },
         black: '#0c1011'
@@ -46,5 +47,7 @@ export default {
     },
   },
   darkMode: 'class',
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide')
+  ],
 } satisfies Config;
