@@ -67,8 +67,9 @@ export function Search({setTerm, options}: Props) {
         optionValue='name'
         placeholder='Search for a country...'
         editable={true}
-        showClear={true}
+        showClear={value.length > 0}
         className={`${isPrimeStylesLoaded ? '' : 'hidden'}`}
+        focusOnHover={false}
         pt={{
           root: {
             className: 'relative flex items-center size-full before:content-["⚲"] before:dark:text-white-light before:text-grey-medium before:absolute before:left-10 before:text-3xl before:-rotate-45'
@@ -83,13 +84,13 @@ export function Search({setTerm, options}: Props) {
             className: `mt-1 h-52 w-full overflow-x-hidden dark:bg-grey-light bg-white-light rounded-md scrollbar-hide !left-0 !top-14`
           },
           item: (items) => ({
-            className: items?.context.selected ? 'bg-blue-light dark:text-grey-light' : ''
+            className: `${items?.context.selected ? 'bg-blue-light dark:text-grey-light' : ''} outline-none`
           }),
           list: {
             className: 'py-2'
           },
           clearIcon: {
-            className: `${isFocused ? 'opacity-100' : 'opacity-0'} absolute right-10 transition-all duration-300 cursor-pointer`
+            className: 'absolute outline-none right-10 cursor-pointer'
           }
         }}
       />
