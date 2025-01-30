@@ -24,7 +24,7 @@ export default function RootLayout({
       <body className={`${nunito.className} antialiased dark:bg-grey-default bg-white-default flex flex-col min-h-screen overflow-y-scroll`}>
         <Providers>
           <Header/>
-          <main className='grow'>
+          <main className='grow px-4 tablet:px-10 desktop:px-20'>
             <PrimeReactProvider value={{unstyled: true, pt: {}}}>
               {children}
             </PrimeReactProvider>

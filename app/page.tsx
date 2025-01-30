@@ -1,4 +1,5 @@
 import { removeDiacritics } from './util/removeDiacritics'
+import { fetchAllCountries } from './util/fetchAllCountries'
 import { Countries } from './components/Countries/Countries'
 
 export type NameBase = {
@@ -34,7 +35,7 @@ export interface CountryPreview extends Omit<CountryRaw, 'altSpellings' | 'name'
 export const revalidate = 2592000
 
 export default async function CountriesMain() {
-  const countriesRaw: CountryRaw[] = await fetch('https://restcountries.com/v3.1/all?fields=name,altSpellings,population,region,capital,cca3,flags').then(res => res.json())
+  const countriesRaw = await fetchAllCountries()
   const countries: CountryPreview[] = countriesRaw.map(country => {
     const {name, altSpellings, ...rest} = country
     const normalizedName = removeDiacritics(name.common)

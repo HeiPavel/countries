@@ -26,6 +26,15 @@ export function Search({setTerm, options}: Props) {
     setValue(event.value ? event.value : '')
   }
 
+  const handleHide = () => {
+    if (dropdownRef.current) {
+      const input = dropdownRef.current.getFocusInput()
+      input.blur()
+    }
+
+    setIsFocused(false)
+  }
+
   const countryOptionTemplate = (option: Template) => {
     return (
       <div className='py-3 pl-2 flex items-center gap-1.5 hover:bg-blue-light hover:dark:text-grey-light cursor-pointer'>
@@ -38,10 +47,31 @@ export function Search({setTerm, options}: Props) {
             className='object-cover'
           />
         </div>
-        <p className='whitespace-nowrap'>{option.name}</p>
+        <p className='truncate'>{option.name}</p>
       </div>
     )
   }
+
+  useEffect(() => {
+    if (!dropdownRef.current) return
+
+    const overlay = dropdownRef.current.getOverlay()
+    const overlayList = overlay?.querySelector('ul')
+
+    if (!overlayList) return
+    
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        if (entry) overlay.scrollTo(0,0)
+      }
+    })
+
+    resizeObserver.observe(overlayList)
+
+    return () => {
+      resizeObserver.unobserve(overlayList)
+    }
+  }, [isFocused])
 
   useEffect(() => {
     const timeoutID = setTimeout(() => {
@@ -60,7 +90,7 @@ export function Search({setTerm, options}: Props) {
         onChange={handleChange}
         onFocus={() => dropdownRef.current ? dropdownRef.current.show() : null}
         onShow={() => setIsFocused(true)}
-        onHide={() => setIsFocused(false)}
+        onHide={handleHide}
         options={options}
         itemTemplate={countryOptionTemplate}
         optionLabel='name'
@@ -72,16 +102,16 @@ export function Search({setTerm, options}: Props) {
         focusOnHover={false}
         pt={{
           root: {
-            className: 'relative flex items-center size-full before:content-["⚲"] before:dark:text-white-light before:text-grey-medium before:absolute before:left-10 before:text-3xl before:-rotate-45'
+            className: 'relative flex items-center size-full before:content-["⚲"] before:dark:text-white-light before:text-grey-medium before:absolute before:left-5 before:laptop:left-10 before:text-3xl before:-rotate-45'
           },
           input: {
-            className: 'pl-20 pr-10 placeholder:dark:text-white-dark placeholder:text-grey-medium size-full outline-none dark:bg-grey-light bg-white-light rounded-md border border-transparent hover:border-blue-default transition-all duration-200 focus:shadow-input'
+            className: 'pl-12 laptop:pl-20 pr-14 text-ellipsis placeholder:dark:text-white-dark placeholder:text-grey-medium size-full outline-none dark:bg-grey-light bg-white-light rounded-md border border-transparent hover:border-blue-default transition-all duration-200 focus:shadow-input'
           },
           trigger: {
-            className: `${isFocused ? 'opacity-100' : 'opacity-0'} absolute right-0 px-3 transition-all duration-300`
+            className: `${isFocused ? 'opacity-100' : 'opacity-0'} absolute right-0 pl-1 pr-3 transition-all duration-300`
           },
           panel: {
-            className: `mt-1 h-52 w-full overflow-x-hidden dark:bg-grey-light bg-white-light rounded-md scrollbar-hide !left-0 !top-14`
+            className: `mt-1 h-52 w-full overflow-x-hidden dark:bg-grey-light bg-white-light rounded-md !left-0 !top-14`
           },
           item: (items) => ({
             className: `${items?.context.selected ? 'bg-blue-light dark:text-grey-light' : ''} outline-none`
@@ -90,7 +120,7 @@ export function Search({setTerm, options}: Props) {
             className: 'py-2'
           },
           clearIcon: {
-            className: 'absolute outline-none right-10 cursor-pointer'
+            className: 'absolute outline-none right-9 cursor-pointer'
           }
         }}
       />

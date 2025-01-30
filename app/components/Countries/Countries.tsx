@@ -26,8 +26,8 @@ export function Countries({countries}: {countries: CountryPreview[]}) {
 
   return (
     <div className='container mt-14'>
-      <div className='grid gap-20 grid-cols-[repeat(auto-fill,_275px)] justify-center'>
-        <div className='col-span-full'>
+      <div className='grid gap-x-20 gap-y-14 tablet:gap-y-16 grid-cols-1 justify-items-center md:grid-cols-[repeat(auto-fill,_275px)] justify-center'>
+        <div className='col-span-full w-full'>
           <Search
             setTerm={setTerm}
             options={options}
