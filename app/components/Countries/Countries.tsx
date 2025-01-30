@@ -14,7 +14,7 @@ export function Countries({countries}: {countries: CountryPreview[]}) {
   }, [term])
 
   const options = useMemo(() => {
-    return countriesToShow.map(country => {
+    return countriesToShow.slice(0, 20).map(country => {
       return {
         name: country.name,
         flag: country.flags.svg,

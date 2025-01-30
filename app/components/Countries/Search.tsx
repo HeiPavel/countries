@@ -45,33 +45,14 @@ export function Search({setTerm, options}: Props) {
             fill
             sizes='10vw'
             className='object-cover'
+            quality={75}
+            priority={true}
           />
         </div>
         <p className='truncate'>{option.name}</p>
       </div>
     )
   }
-
-  useEffect(() => {
-    if (!dropdownRef.current) return
-
-    const overlay = dropdownRef.current.getOverlay()
-    const overlayList = overlay?.querySelector('ul')
-
-    if (!overlayList) return
-    
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (const entry of entries) {
-        if (entry) overlay.scrollTo(0,0)
-      }
-    })
-
-    resizeObserver.observe(overlayList)
-
-    return () => {
-      resizeObserver.unobserve(overlayList)
-    }
-  }, [isFocused])
 
   useEffect(() => {
     const timeoutID = setTimeout(() => {
