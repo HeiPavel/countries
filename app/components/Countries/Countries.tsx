@@ -12,7 +12,12 @@ export function Countries({children}: {children: CountiesChildren[]}) {
     return children.filter(country => country.searchTags.some(tag => tag.startsWith(term.trim())))
   }, [term])
 
-  const options = useMemo(() => countriesToShow.slice(0, 10).map(country => country.option), [term])
+  const options = useMemo(() => countriesToShow.slice(0, 10).map(country => {
+    return {
+      name: country.name,
+      option: country.option
+    }
+  }), [term])
 
   return (
     <div className='container mt-14'>

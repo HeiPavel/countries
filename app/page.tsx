@@ -35,6 +35,7 @@ export interface CountryPreview extends Omit<CountryRaw, 'altSpellings' | 'name'
 }
 
 export type CountiesChildren = {
+  name: string
   searchTags: string[]
   countryCard: React.ReactNode
   option: React.ReactNode
@@ -77,6 +78,7 @@ export default async function CountriesMain() {
     }
 
     return {
+      name: name.official,
       searchTags,
       countryCard: <CountryCard cardData={cardData}/>,
       option: <CountryOptionTemplate option={option}/>

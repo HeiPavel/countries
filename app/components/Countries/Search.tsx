@@ -4,9 +4,14 @@ import { useState, useEffect, useRef } from 'react'
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown'
 import { usePrimeStylesReady } from '../hooks/usePrimeStylesReady'
 
+type SearchChildren = {
+  name: string
+  option: React.ReactNode
+}
+
 type Props = {
   setTerm: (term: string) => void
-  children: React.ReactNode[]
+  children: SearchChildren[]
 }
 
 export function Search({setTerm, children}: Props) {
@@ -28,7 +33,7 @@ export function Search({setTerm, children}: Props) {
     setIsFocused(false)
   }
 
-  const template = (option: React.ReactNode) => <>{option}</>
+  const template = (option: SearchChildren) => <>{option.option}</>
 
   useEffect(() => {
     const timeoutID = setTimeout(() => {
