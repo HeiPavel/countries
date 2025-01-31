@@ -10,7 +10,7 @@ export function Countries({countries}: {countries: CountryPreview[]}) {
   
   const countriesToShow = useMemo(() => {
     if (term.length === 0) return countries
-    return countries.filter(country => country.searchTags.some(tag => tag.includes(term.trim())))
+    return countries.filter(country => country.searchTags.some(tag => tag.startsWith(term.trim())))
   }, [term])
 
   const options = useMemo(() => {
