@@ -2,6 +2,8 @@ import { removeDiacritics } from './util/removeDiacritics'
 import { fetchAllCountries } from './util/fetchAllCountries'
 import { Countries } from './components/Countries/Countries'
 import { addTags } from './util/addTags'
+import { CountryCard } from './components/Countries/CountryCard'
+import { CountryOptionTemplate } from './components/Countries/CountryOptionTemplate'
 
 export type NameBase = {
   common: string
@@ -30,15 +32,20 @@ export type CountryRaw = {
 
 export interface CountryPreview extends Omit<CountryRaw, 'altSpellings' | 'name'> {
   name: string
+}
+
+export type CountiesChildren = {
   searchTags: string[]
+  countryCard: React.ReactNode
+  option: React.ReactNode
 }
 
 export const revalidate = 2592000
 
 export default async function CountriesMain() {
   const countriesRaw = await fetchAllCountries()
-  const countries: CountryPreview[] = countriesRaw.map(country => {
-    const {name, altSpellings, ...rest} = country
+  const countries: CountiesChildren[] = countriesRaw.map(country => {
+    const {name, altSpellings, flags, ...rest} = country
     const searchTags: string[] = []
 
     for (const key in name) {
@@ -56,14 +63,27 @@ export default async function CountriesMain() {
       addTags(tags, searchTags)
     }
 
-    return {
+    const cardData = {
       name: name.official,
       searchTags: searchTags,
+      flags,
       ...rest
+    }
+
+    const option = {
+      name: name.official,
+      flag: flags.svg,
+      alt: flags.alt
+    }
+
+    return {
+      searchTags,
+      countryCard: <CountryCard cardData={cardData}/>,
+      option: <CountryOptionTemplate option={option}/>
     }
   })
 
   return (
-    <Countries countries={countries} />
+    <Countries>{countries}</Countries>
   )
 }

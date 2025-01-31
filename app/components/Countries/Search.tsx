@@ -1,22 +1,15 @@
 'use client'
 
-import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown'
 import { usePrimeStylesReady } from '../hooks/usePrimeStylesReady'
 
-type Template = {
-  name: string
-  flag: string
-  alt: string
-}
-
 type Props = {
   setTerm: (term: string) => void
-  options: Template[]
+  children: React.ReactNode[]
 }
 
-export function Search({setTerm, options}: Props) {
+export function Search({setTerm, children}: Props) {
   const isPrimeStylesLoaded = usePrimeStylesReady()
   const [isFocused, setIsFocused] = useState(false)
   const [value, setValue] = useState('')
@@ -35,24 +28,7 @@ export function Search({setTerm, options}: Props) {
     setIsFocused(false)
   }
 
-  const countryOptionTemplate = (option: Template) => {
-    return (
-      <div className='py-3 pl-2 flex items-center gap-1.5 hover:bg-blue-light hover:dark:text-grey-light cursor-pointer'>
-        <div className='relative w-[18px] h-3 shrink-0'>
-          <Image
-            src={option.flag}
-            alt={option.alt}
-            fill
-            sizes='10vw'
-            className='object-cover'
-            quality={75}
-            priority={true}
-          />
-        </div>
-        <p className='truncate'>{option.name}</p>
-      </div>
-    )
-  }
+  const template = (option: React.ReactNode) => <>{option}</>
 
   useEffect(() => {
     const timeoutID = setTimeout(() => {
@@ -72,8 +48,8 @@ export function Search({setTerm, options}: Props) {
         onFocus={() => dropdownRef.current ? dropdownRef.current.show() : null}
         onShow={() => setIsFocused(true)}
         onHide={handleHide}
-        options={options}
-        itemTemplate={countryOptionTemplate}
+        options={children}
+        itemTemplate={template}
         optionLabel='name'
         optionValue='name'
         placeholder='Search for a country...'
