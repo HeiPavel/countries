@@ -1,4 +1,6 @@
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
+import plugin from "tailwindcss/plugin"
+import { PluginAPI } from "tailwindcss/types/config"
 
 export default {
   content: [
@@ -33,7 +35,8 @@ export default {
         grey: {
           light: '#2b3743',
           default: '#212e37',
-          medium: '#808080'
+          medium: '#808080',
+          soft: '#dedee2'
         },
         blue: {
           light: '#d2dcfc',
@@ -47,5 +50,14 @@ export default {
     },
   },
   darkMode: 'class',
-  plugins: [],
+  plugins: [
+    plugin(({addVariant, addUtilities}: PluginAPI) => {
+      addVariant("starting", "@starting-style")
+      addUtilities({
+        '.transition-discrete': {
+          transitionBehavior: 'allow-discrete'
+        }
+      })
+    })
+  ],
 } satisfies Config;
