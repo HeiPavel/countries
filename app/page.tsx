@@ -36,6 +36,7 @@ export interface CountryPreview extends Omit<CountryRaw, 'altSpellings' | 'name'
 
 export type CountiesChildren = {
   name: string
+  region: string
   searchTags: string[]
   countryCard: React.ReactNode
   option: React.ReactNode
@@ -46,7 +47,7 @@ export const revalidate = 2592000
 export default async function CountriesMain() {
   const countriesRaw = await fetchAllCountries()
   const countries: CountiesChildren[] = countriesRaw.map(country => {
-    const {name, altSpellings, flags, ...rest} = country
+    const {name, region, altSpellings, flags, ...rest} = country
     const searchTags: string[] = []
 
     for (const key in name) {
@@ -68,6 +69,7 @@ export default async function CountriesMain() {
       name: name.official,
       searchTags: searchTags,
       flags,
+      region,
       ...rest
     }
 
@@ -79,6 +81,7 @@ export default async function CountriesMain() {
 
     return {
       name: name.official,
+      region,
       searchTags,
       countryCard: <CountryCard cardData={cardData}/>,
       option: <CountryOptionTemplate option={option}/>

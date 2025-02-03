@@ -8,7 +8,7 @@ export type Template = {
 
 export function CountryOptionTemplate ({option}: {option: Template}) {
     return (
-      <div className='py-3 pl-2 flex items-center gap-1.5 hover:bg-blue-light hover:dark:text-grey-light cursor-pointer'>
+      <div className='py-3 px-2 flex items-center gap-1.5 hover:bg-blue-light hover:dark:text-grey-light cursor-pointer'>
         <div className='relative w-[18px] h-3 shrink-0'>
           <Image
             src={option.flag}

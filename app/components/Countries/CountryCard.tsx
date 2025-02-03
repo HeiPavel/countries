@@ -8,7 +8,7 @@ export function CountryCard({cardData}: {cardData: CountryPreview}) {
   const description = {
     population: String(population),
     region,
-    capital: capital.join(',')
+    capital: capital.length ? capital.join(', ') : 'None'
   }
 
   return (
