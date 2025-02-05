@@ -60,7 +60,7 @@ export function Search({term, setTerm, children}: Props) {
   }, [value, isFocused])
 
   return (
-    <div className='relative max-w-[490px] h-14 grow'>
+    <div className={`relative max-w-[490px] h-14 grow ${isPrimeStylesLoaded ? 'shadow-box' : ''} rounded-md`}>
       <Dropdown
         ref={dropdownRef}
         appendTo='self'
@@ -100,6 +100,15 @@ export function Search({term, setTerm, children}: Props) {
           }),
           list: {
             className: 'py-2'
+          },
+          transition: {
+            timeout: 150,
+            classNames: {
+              enter: 'opacity-0 scale-75',
+              enterActive: 'opacity-100 !scale-100 transition-[transform,opacity] duration-150',
+              exit: 'opacity-100',
+              exitActive: '!opacity-0 transition-opacity duration-150'
+            }
           }
         }}
       />

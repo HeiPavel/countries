@@ -31,8 +31,8 @@ export function Countries({children}: {children: CountiesChildren[]}) {
 
   return (
     <div className='container mt-14'>
-      <div className='grid gap-x-20 gap-y-14 tablet:gap-y-16 grid-cols-1 justify-items-center md:grid-cols-[repeat(auto-fill,_275px)] justify-center'>
-        <div className='col-span-full w-full flex flex-col gap-14 md:gap-0 md:flex-row md:justify-between'>
+      <div className='grid gap-x-20 laptop:gap-x-14 desktop:gap-x-16 gap-y-14 laptop:gap-y-16 grid-cols-1 justify-items-center md:grid-cols-[repeat(auto-fill,_275px)] justify-center'>
+        <div className='col-span-full w-full flex flex-col gap-14 laptop:flex-row laptop:justify-between'>
           <Search
             term={term}
             setTerm={setTerm}

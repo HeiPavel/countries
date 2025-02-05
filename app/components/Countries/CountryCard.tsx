@@ -14,7 +14,7 @@ export function CountryCard({cardData}: {cardData: CountryPreview}) {
   return (
     <Link 
       href={`/country/${cca3}`}
-      className='w-[275px] h-[360px] dark:bg-grey-light bg-white-light rounded-md overflow-hidden'
+      className='w-[275px] h-[360px] dark:bg-grey-light bg-white-light rounded-md overflow-hidden shadow-box'
     >
       <div className='relative w-full h-40'>
         <Image

@@ -45,7 +45,9 @@ export default {
         black: '#0c1011'
       },
       boxShadow: {
-        'input': '0 0 0 3px rgb(199, 210, 254)'
+        'input': '0 0 0 3px rgb(199, 210, 254)',
+        'header': '0 1px 15px 3px rgba(0, 0, 0, 0.1)',
+        'box': '0 0 15px 5px rgba(0, 0, 0, 0.1)'
       }
     },
   },
@@ -60,4 +62,7 @@ export default {
       })
     })
   ],
+  future: {
+    hoverOnlyWhenSupported: true
+  }
 } satisfies Config;

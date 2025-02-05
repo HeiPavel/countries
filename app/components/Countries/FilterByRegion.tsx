@@ -32,10 +32,19 @@ export function FilterByRegion({region, setRegion}: Props) {
     setRegion(event.value ? event.value : '')
   }
 
+  const handleHide = () => {
+    if (dropdownRef.current) {
+      const input = dropdownRef.current.getFocusInput()
+      input.blur()
+    }
+
+    setIsFocused(false)
+  }
+
   const template = (option: FilterTemplate) => <p className='px-6 py-3 hover:bg-blue-light hover:dark:text-grey-light cursor-pointer'>{option.region}</p>
 
   return (
-    <div className='relative w-52 h-14'>
+    <div className={`relative w-52 h-14 ${isPrimeStylesLoaded ? 'shadow-box' : ''} rounded-md`}>
       <Dropdown
         ref={dropdownRef}
         className={`${isPrimeStylesLoaded ? '' : 'hidden'}`}
@@ -43,7 +52,7 @@ export function FilterByRegion({region, setRegion}: Props) {
         value={region}
         onChange={handleChange}
         onFocus={() => setIsFocused(true)}
-        onHide={() => setIsFocused(false)}
+        onHide={handleHide}
         options={options}
         itemTemplate={template}
         optionLabel='region'
@@ -60,7 +69,7 @@ export function FilterByRegion({region, setRegion}: Props) {
             className: `pl-6 flex items-center ${region.length ? 'dark:text-white-default text-black' : 'text-grey-medium dark:text-grey-soft'} size-full`
           },
           panel: {
-            className: `mt-1 h-52 w-full overflow-x-hidden dark:bg-grey-light bg-white-light rounded-md !left-0 !top-14`
+            className: `mt-1 h-52 w-full overflow-x-hidden dark:bg-grey-light bg-white-light rounded-md !left-[-1px] !top-14`
           },
           trigger: {
             className: 'absolute right-0 pl-1 pr-3'
@@ -70,6 +79,15 @@ export function FilterByRegion({region, setRegion}: Props) {
           }),
           list: {
             className: 'py-2'
+          },
+          transition: {
+            timeout: 150,
+            classNames: {
+              enter: 'opacity-0 scale-75',
+              enterActive: 'opacity-100 !scale-100 transition-[transform,opacity] duration-150',
+              exit: 'opacity-100',
+              exitActive: '!opacity-0 transition-opacity duration-150'
+            }
           }
         }}
       />
