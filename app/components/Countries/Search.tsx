@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useEffect, useRef, KeyboardEventHandler, MouseEventHandler } from 'react'
+import { useState, useEffect, useRef, KeyboardEventHandler } from 'react'
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown'
 import { usePrimeStylesReady } from '../hooks/usePrimeStylesReady'
 import { ClearIcon } from './ClearIcon'
+import { dropdownSharedStyles } from './dropdownSharedStyles'
 
 type SearchChildren = {
   name: string
@@ -22,6 +23,7 @@ export function Search({term, setTerm, children}: Props) {
   const [isOpen, setIsOpen] = useState(false)
   const [value, setValue] = useState('')
   const dropdownRef = useRef<Dropdown>(null)
+  const {root, trigger, item, ...rest} = dropdownSharedStyles
 
   const handleChange = (event: DropdownChangeEvent) => {
     setValue(event.value ? event.value : '')
@@ -84,32 +86,19 @@ export function Search({term, setTerm, children}: Props) {
         clearIcon={<ClearIcon ref={dropdownRef}/>}
         pt={{
           root: {
-            className: `relative flex items-center size-full dark:bg-grey-light bg-white-light rounded-md border border-transparent hover:border-blue-default transition-all duration-200 ${isFocused ? 'shadow-input' : ''} before:content-["⚲"] before:dark:text-white-light before:text-grey-medium before:absolute before:left-5 before:laptop:left-10 before:text-3xl before:-rotate-45`
+            className: `${root(isFocused)} before:content-["⚲"] before:dark:text-white-light before:text-grey-medium before:absolute before:left-5 before:laptop:left-10 before:text-3xl before:-rotate-45`
           },
           input: {
             className: 'pl-12 laptop:pl-20 pr-14 text-ellipsis placeholder:dark:text-grey-soft placeholder:text-grey-medium size-full outline-none bg-transparent'
           },
           trigger: {
-            className: `${isOpen ? 'block opacity-100' : 'hidden opacity-0'} absolute right-0 pl-1 pr-3 starting:opacity-0 transition-all duration-300 transition-discrete`
-          },
-          panel: {
-            className: `mt-1 h-52 w-full overflow-x-hidden dark:bg-grey-light bg-white-light rounded-md !left-[-1px] !top-14`
+            className: `${isOpen ? 'block opacity-100' : 'hidden opacity-0'} ${trigger} starting:opacity-0 transition-all duration-300 transition-discrete`
           },
           item: (items) => ({
-            className: `${items?.context.selected ? 'bg-blue-light dark:text-grey-light' : ''} outline-none ${items?.context.disabled ? 'pointer-events-none' : ''}`
+            className: `${item(items?.context.selected)} ${items?.context.disabled ? 'pointer-events-none' : ''}`,
+            onClick: () => setIsFocused(false)
           }),
-          list: {
-            className: 'py-2'
-          },
-          transition: {
-            timeout: 150,
-            classNames: {
-              enter: 'opacity-0 scale-75',
-              enterActive: 'opacity-100 !scale-100 transition-[transform,opacity] duration-150',
-              exit: 'opacity-100',
-              exitActive: '!opacity-0 transition-opacity duration-150'
-            }
-          }
+          ...rest
         }}
       />
     </div>
