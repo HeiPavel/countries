@@ -47,7 +47,20 @@ export default {
       boxShadow: {
         'input': '0 0 0 3px rgb(199, 210, 254)',
         'header': '0 1px 15px 3px rgba(0, 0, 0, 0.1)',
-        'box': '0 0 15px 5px rgba(0, 0, 0, 0.1)'
+        'box': '0 0 15px 5px rgba(0, 0, 0, 0.1)',
+        'box-hover': '0 0 15px 5px rgba(99, 102, 241, 1)'
+      },
+      animation: {
+        'appear': 'appear 300ms ease-in'
+      },
+      keyframes: {
+        appear: {
+          'from': {opacity: '0'},
+          'to': {opacity: '1'}
+        }
+      },
+      transitionProperty: {
+        'filter': 'filter'
       }
     },
   },
