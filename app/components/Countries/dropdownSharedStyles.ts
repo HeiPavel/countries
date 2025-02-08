@@ -2,7 +2,7 @@ import { HTMLAttributes } from 'react'
 import { DropdownPassThroughType, DropdownPassThroughTransitionType } from 'primereact/dropdown'
 
 type SharedStylesType = {
-  root: (isFocused: boolean) => string
+  root: (isFocused: boolean | undefined) => string
   trigger: string
   panel: DropdownPassThroughType<HTMLAttributes<HTMLDivElement>>
   item: (selected: boolean | undefined) => string
@@ -14,9 +14,9 @@ export const dropdownSharedStyles: SharedStylesType = {
   root: (isFocused) => `relative flex items-center size-full dark:bg-grey-light bg-white-light rounded-md border border-transparent hover:border-blue-default transition-all duration-200 ${isFocused ? 'shadow-input' : ''}`,
   trigger: 'absolute right-0 pl-1 pr-3',
   panel: {
-    className: `mt-1 h-52 w-full overflow-x-hidden dark:bg-grey-light bg-white-light rounded-md !left-[-1px] !top-14`
+    className: `h-52 w-full overflow-x-hidden dark:bg-grey-light bg-white-light rounded-md !left-0 !top-0`
   },
-  item: (selected) => `${selected ? 'bg-blue-light dark:text-grey-light' : ''} outline-none`,
+  item: (selected) => `${selected ? 'bg-blue-light dark:text-grey-light' : ''} outline-none transition-colors duration-150`,
   list: {
     className: 'py-2'
   },
