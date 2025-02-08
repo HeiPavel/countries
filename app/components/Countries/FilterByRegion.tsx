@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useRef, MouseEvent } from 'react'
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown'
 import { usePrimeStylesReady } from '../hooks/usePrimeStylesReady'
 import { ClearIcon } from './ClearIcon'
@@ -27,34 +27,35 @@ const options = [
 export function FilterByRegion({region, setRegion}: Props) {
   const isPrimeStylesLoaded = usePrimeStylesReady()
   const dropdownRef = useRef<Dropdown>(null)
-  const [isFocused, setIsFocused] = useState(false)
+  const overlayContainerRef = useRef<HTMLDivElement>(null)
   const {root, trigger, item, ...rest} = dropdownSharedStyles
 
   const handleChange = (event: DropdownChangeEvent) => {
     setRegion(event.value ? event.value : '')
   }
 
-  const handleHide = () => {
-    if (dropdownRef.current) {
-      const input = dropdownRef.current.getFocusInput()
-      input.blur()
+  const handleClick = (event: MouseEvent, overlayVisible: boolean | undefined) => {
+    if (overlayVisible) {
+      dropdownRef.current?.hide()
+      dropdownRef.current?.getFocusInput().blur()
+    } else{
+      dropdownRef.current?.show()
+      dropdownRef.current?.getFocusInput().focus()
     }
 
-    setIsFocused(false)
+    event.stopPropagation()
   }
 
-  const template = (option: FilterTemplate) => <p className='px-6 py-3 hover:bg-blue-light hover:dark:text-grey-light cursor-pointer'>{option.region}</p>
+  const template = (option: FilterTemplate) => <p className='px-6 py-3 hover:bg-blue-light hover:dark:text-grey-light cursor-pointer transition-colors duration-150'>{option.region}</p>
 
   return (
     <div className={`relative w-52 h-14 ${isPrimeStylesLoaded ? 'shadow-box' : ''} rounded-md`}>
       <Dropdown
         ref={dropdownRef}
         className={`${isPrimeStylesLoaded ? '' : 'hidden'}`}
-        appendTo='self'
+        appendTo={overlayContainerRef.current}
         value={region}
         onChange={handleChange}
-        onFocus={() => setIsFocused(true)}
-        onHide={handleHide}
         options={options}
         itemTemplate={template}
         optionLabel='region'
@@ -64,21 +65,29 @@ export function FilterByRegion({region, setRegion}: Props) {
         clearIcon={<ClearIcon ref={dropdownRef}/>}
         focusOnHover={false}
         pt={{
-          root: {
-            className: `${root(isFocused)} cursor-pointer`
-          },
-          input: {
-            className: `pl-6 flex items-center ${region.length ? 'dark:text-white-default text-black' : 'text-grey-medium dark:text-grey-soft'} size-full`
-          },
-          trigger: {
-            className: trigger
-          },
+          root: (dropdown) => ({
+            className: `${root(dropdown?.state.focused)} cursor-pointer`
+          }),
+          input: (dropdown) => ({
+            className: `pl-6 flex items-center ${region.length ? 'dark:text-white-default text-black' : 'text-grey-medium dark:text-grey-soft'} size-full`,
+            onClick: (event) => handleClick(event, dropdown?.state.overlayVisible)
+          }),
+          trigger: (dropdown) =>  ({
+            className: trigger,
+            onClick: (event) => handleClick(event, dropdown?.state.overlayVisible)
+          }),
           item: (items) => ({
-            className: item(items?.context.selected)
+            className: item(items?.context.selected),
+            onClick: () => dropdownRef.current?.getFocusInput().blur()
           }),
           ...rest
         }}
       />
+      <div 
+        className='relative mt-1'
+        ref={overlayContainerRef}
+      >
+      </div>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef, KeyboardEventHandler } from 'react'
+import { useState, useEffect, useRef, KeyboardEventHandler, MouseEventHandler } from 'react'
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown'
 import { usePrimeStylesReady } from '../hooks/usePrimeStylesReady'
 import { ClearIcon } from './ClearIcon'
@@ -19,27 +19,23 @@ type Props = {
 
 export function Search({term, setTerm, children}: Props) {
   const isPrimeStylesLoaded = usePrimeStylesReady()
-  const [isFocused, setIsFocused] = useState(false)
-  const [isOpen, setIsOpen] = useState(false)
   const [value, setValue] = useState('')
   const dropdownRef = useRef<Dropdown>(null)
+  const overlayContainerRef = useRef<HTMLDivElement>(null)
   const {root, trigger, item, ...rest} = dropdownSharedStyles
 
   const handleChange = (event: DropdownChangeEvent) => {
     setValue(event.value ? event.value : '')
+    if (dropdownRef.current && !event.value) dropdownRef.current.hide()
   }
 
   const handleKeyDown: KeyboardEventHandler = (event) => {
     if (value.length === 0 && event.key === 'Backspace') dropdownRef.current?.hide()
   }
 
-  const handleHide = () => {
-    if (dropdownRef.current) {
-      const input = dropdownRef.current.getFocusInput()
-      input.blur()
-    }
-
-    setIsOpen(false)
+  const handleTriggerClick: MouseEventHandler = (event) => {
+    if (dropdownRef.current) dropdownRef.current.hide()
+    event.stopPropagation()
   }
 
   const template = (option: SearchChildren) => <>{option.option}</>
@@ -50,28 +46,21 @@ export function Search({term, setTerm, children}: Props) {
   }]
 
   useEffect(() => {
-    if (dropdownRef.current) {
-      value.length && isFocused ? dropdownRef.current.show() : dropdownRef.current.hide()
-    }
-
     const timeoutID = setTimeout(() => {
       setTerm(value.toLowerCase())
     }, 300)
 
     return () => clearTimeout(timeoutID)
-  }, [value, isFocused])
+  }, [value])
 
   return (
     <div className={`relative max-w-[490px] h-14 grow ${isPrimeStylesLoaded ? 'shadow-box' : ''} rounded-md`}>
       <Dropdown
         ref={dropdownRef}
-        appendTo='self'
+        appendTo={overlayContainerRef.current}
         value={value}
         onChange={handleChange}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        onShow={() => setIsOpen(true)}
-        onHide={handleHide}
+        onFocus={() => value.length ? dropdownRef.current?.show() : null}
         onKeyDown={handleKeyDown}
         options={children.length ? children : emptyMessage}
         itemTemplate={template}
@@ -85,22 +74,28 @@ export function Search({term, setTerm, children}: Props) {
         focusOnHover={false}
         clearIcon={<ClearIcon ref={dropdownRef}/>}
         pt={{
-          root: {
-            className: `${root(isFocused)} before:content-["⚲"] before:dark:text-white-light before:text-grey-medium before:absolute before:left-5 before:laptop:left-10 before:text-3xl before:-rotate-45`
-          },
+          root: (dropdown) => ({
+            className: `${root(dropdown?.state.focused)} before:content-["⚲"] before:dark:text-white-light before:text-grey-medium before:absolute before:left-5 before:laptop:left-10 before:text-3xl before:-rotate-45`
+          }),
           input: {
             className: 'pl-12 laptop:pl-20 pr-14 text-ellipsis placeholder:dark:text-grey-soft placeholder:text-grey-medium size-full outline-none bg-transparent'
           },
-          trigger: {
-            className: `${isOpen ? 'block opacity-100' : 'hidden opacity-0'} ${trigger} starting:opacity-0 transition-all duration-300 transition-discrete`
-          },
+          trigger: (dropdown) => ({
+            className: `${dropdown?.state.overlayVisible ? 'block opacity-100' : 'hidden opacity-0'} ${trigger} starting:opacity-0 transition-all duration-300 transition-discrete`,
+            onClick: handleTriggerClick
+          }),
           item: (items) => ({
             className: `${item(items?.context.selected)} ${items?.context.disabled ? 'pointer-events-none' : ''}`,
-            onClick: () => setIsFocused(false)
+            onClick: () => dropdownRef.current?.getFocusInput().blur()
           }),
           ...rest
         }}
       />
+      <div 
+        className='relative mt-1'
+        ref={overlayContainerRef}
+      >
+      </div>
     </div>
   )
 }
