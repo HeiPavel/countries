@@ -39,10 +39,7 @@ export function Countries({children}: {children: CountiesChildren[]}) {
           >
             {options}
           </Search>
-          <FilterByRegion
-            region={region}
-            setRegion={setRegion}
-          />
+          <FilterByRegion setRegion={setRegion}/>
         </div>
         {countriesToShow.map((country) => country.countryCard)}
       </div>

@@ -40,7 +40,8 @@ export default {
         },
         blue: {
           light: '#d2dcfc',
-          default: '#6366f1'
+          default: '#6366f1',
+          selected: '#adbff8'
         },
         black: '#0c1011'
       },
