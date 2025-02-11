@@ -34,6 +34,8 @@ export function Search({term, setTerm, children}: Props) {
   }
 
   const handleTriggerClick: MouseEventHandler = (event) => {
+    document.body.click()
+    
     if (dropdownRef.current) dropdownRef.current.hide()
     event.stopPropagation()
   }

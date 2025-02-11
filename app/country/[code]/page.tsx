@@ -1,23 +1,26 @@
+import Link from 'next/link'
 import { CountryRaw, NameRaw } from '@/app/page'
+import { Country } from '@/app/components/Country/Country'
+import { FaArrowLeftLong } from 'react-icons/fa6'
 
-type Params = {
+export type Params = {
   params: Promise<{code: string}>
 }
 
-type Currency = {
+export type Currency = {
   name: string
   symbol: string
 }
 
-type Currencies = {
+export type Currencies = {
   [key: string]: Currency
 }
 
-type Languages = {
+export type Languages = {
   [key: string]: string
 }
 
-interface CountryFullPreviewRaw extends Omit<CountryRaw, 'altSpellings' | 'cca3'> {
+export interface CountryFullPreviewRaw extends Omit<CountryRaw, 'altSpellings' | 'cca3'> {
   subregion: string
   tld: string[]
   currencies: Currencies
@@ -25,19 +28,19 @@ interface CountryFullPreviewRaw extends Omit<CountryRaw, 'altSpellings' | 'cca3'
   borders: string[]
 }
 
-interface CountryFullPreview extends Omit<CountryFullPreviewRaw, 'name' | 'currencies' | 'languages'> {
+export interface CountryFullPreview extends Omit<CountryFullPreviewRaw, 'name' | 'currencies' | 'languages'> {
   name: string
   nativeName: string
   currencies: string[]
   languages: string[]
 }
 
-type BorderCountryRaw = {
+export type BorderCountryRaw = {
   name: NameRaw
   cca3: string
 }
 
-type BorderCountry = {
+export type BorderCountry = {
   name: string
   cca3: string
 }
@@ -69,6 +72,22 @@ export default async function CountryPage({params}: Params) {
   })
   
   return (
-    <h1>{code}</h1>
+    <div className='container mt-14'>
+      <Link 
+        href='/'
+        className='block w-36 h-12 outline-none'
+      >
+        <button className='size-full rounded-md outline-none flex items-center justify-center gap-3 dark:bg-grey-light shadow-box hover:shadow-button transition-shadow duration-150 ease-linear'>
+          <FaArrowLeftLong 
+            className='size-5 dark:text-white-default text-black'
+          />
+          <span className='dark:text-white-dark text-grey-default'>Back</span>
+        </button>
+      </Link>
+      <Country 
+        countryData={countryData}
+        borders={borderCountriesData}
+      />
+    </div>
   )
 }

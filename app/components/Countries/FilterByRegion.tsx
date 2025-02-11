@@ -35,6 +35,8 @@ export function FilterByRegion({setRegion}: Props) {
   }
 
   const handleClick = (event: MouseEvent, overlayVisible: boolean | undefined) => {
+    document.body.click()
+    
     if (overlayVisible) {
       dropdownRef.current?.hide()
       dropdownRef.current?.getFocusInput().blur()
@@ -77,7 +79,7 @@ export function FilterByRegion({setRegion}: Props) {
             className: `${root(dropdown?.state.focused)} cursor-pointer`
           }),
           input: (dropdown) => ({
-            className: `pl-6 flex items-center ${value.length ? 'dark:text-white-default text-black' : 'text-grey-medium dark:text-grey-soft'} size-full`,
+            className: `pl-6 flex items-center ${value.length ? 'dark:text-white-default text-black' : 'text-grey-medium dark:text-grey-soft'} size-full outline-none`,
             onClick: (event) => handleClick(event, dropdown?.state.overlayVisible)
           }),
           trigger: (dropdown) =>  ({
