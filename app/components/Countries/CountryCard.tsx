@@ -6,9 +6,9 @@ import { DescriptionItem } from './DescriptionItem'
 export function CountryCard({cardData}: {cardData: CountryPreview}) {
   const {name, capital, population, cca3, region, flags} = cardData
   const description = {
-    population: String(population),
+    population: (population).toLocaleString('en-US'),
     region,
-    capital: capital.length ? capital.join(', ') : 'None'
+    capital: capital.join(', ')
   }
 
   return (

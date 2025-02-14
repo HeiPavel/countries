@@ -30,7 +30,7 @@ export default {
         white: {
           light: '#ffffff',
           default: '#fafafa',
-          dark: '#eef7fe'
+          dark: '#e5edf3'
         },
         grey: {
           light: '#2b3743',

@@ -30,7 +30,7 @@ export interface CountryFullPreviewRaw extends Omit<CountryRaw, 'altSpellings' |
 
 export interface CountryFullPreview extends Omit<CountryFullPreviewRaw, 'name' | 'currencies' | 'languages'> {
   name: string
-  nativeName: string
+  nativeName: string[]
   currencies: string[]
   languages: string[]
 }
@@ -56,7 +56,7 @@ export default async function CountryPage({params}: Params) {
   
   const countryData: CountryFullPreview = {
     name: name.official,
-    nativeName: nativeNames.length ? nativeNames[0].official : name.official,
+    nativeName: nativeNames.length ? nativeNames.map(name => name.common) : [name.common],
     borders: borders.map(code => code.toUpperCase()),
     currencies: currenciesToPreview,
     languages: languagesToPreview,
@@ -72,7 +72,7 @@ export default async function CountryPage({params}: Params) {
   })
   
   return (
-    <div className='container mt-14'>
+    <div className='container mt-10 desktop:mt-14 desktop:px-4'>
       <Link 
         href='/'
         className='block w-36 h-12 outline-none'
