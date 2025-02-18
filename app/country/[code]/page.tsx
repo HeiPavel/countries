@@ -72,7 +72,7 @@ export default async function CountryPage({params}: Params) {
   })
   
   return (
-    <div className='container mt-10 desktop:mt-14 desktop:px-4'>
+    <div className='w-full max-w-7xl mx-auto mt-10 desktop:mt-14'>
       <Link 
         href='/'
         className='block w-36 h-12 outline-none'
