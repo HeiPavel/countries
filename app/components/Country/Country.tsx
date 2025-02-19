@@ -34,7 +34,7 @@ export function Country({countryData, borders}: Props) {
   return (
     <div className='mt-10 desktop:mt-16 flex flex-col desktop:flex-row gap-10 justify-normal items-center desktop:justify-between desktop:items-start'>
       <motion.div 
-        className='relative w-full max-w-[580px] aspect-[17/10]'
+        className='relative w-full max-w-[580px] aspect-[17/10] shadow-box'
         initial={{opacity: 0, x: 0}}
         animate={{opacity: [0, 1], x: [-100, 0]}}
         transition={transition}
