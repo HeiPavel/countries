@@ -74,13 +74,15 @@ export function FilterByRegion({setRegion}: Props) {
         showClear={value.length > 0}
         clearIcon={<ClearIcon ref={dropdownRef}/>}
         focusOnHover={false}
+        id='filter-by-region-dropdown'
         pt={{
           root: (dropdown) => ({
             className: `${root(dropdown?.state.focused)} cursor-pointer`
           }),
           input: (dropdown) => ({
             className: `pl-6 flex items-center ${value.length ? 'dark:text-white-default text-black' : 'text-grey-medium dark:text-grey-soft'} size-full outline-none`,
-            onClick: (event) => handleClick(event, dropdown?.state.overlayVisible)
+            onClick: (event) => handleClick(event, dropdown?.state.overlayVisible),
+            "aria-labelledby": 'filter-by-region-dropdown'
           }),
           trigger: (dropdown) =>  ({
             className: trigger,
@@ -90,6 +92,9 @@ export function FilterByRegion({setRegion}: Props) {
             className: item(items?.context.selected),
             onClick: () => dropdownRef.current?.getFocusInput().blur()
           }),
+          select: {
+            "aria-labelledby": 'filter-by-region-dropdown'
+          },
           ...rest
         }}
       />

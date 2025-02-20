@@ -16,7 +16,7 @@ export function CountryCard({cardData}: {cardData: CountryPreview}) {
       href={`/country/${cca3}`}
       className='block w-[275px] h-[360px] dark:bg-grey-light bg-white-light rounded-md overflow-hidden shadow-box animate-appear transition-[box-shadow,filter] will-change-[filter] ease-linear duration-150 hover:saturate-150 hover:shadow-box-hover'
     >
-      <div className='relative w-full h-40'>
+      <div className='relative w-full h-40 shadow-flag'>
         <Image
           src={flags.png}
           alt={flags.alt}
