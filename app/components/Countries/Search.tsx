@@ -34,6 +34,8 @@ export function Search({term, setTerm, children}: Props) {
   }
 
   const handleTriggerClick: MouseEventHandler = (event) => {
+    document.body.click()
+    
     if (dropdownRef.current) dropdownRef.current.hide()
     event.stopPropagation()
   }
@@ -73,12 +75,14 @@ export function Search({term, setTerm, children}: Props) {
         className={`${isPrimeStylesLoaded ? '' : 'hidden'}`}
         focusOnHover={false}
         clearIcon={<ClearIcon ref={dropdownRef}/>}
+        id='search-country-dropdown'
         pt={{
           root: (dropdown) => ({
             className: `${root(dropdown?.state.focused)} before:content-["⚲"] before:dark:text-white-light before:text-grey-medium before:absolute before:left-5 before:laptop:left-10 before:text-3xl before:-rotate-45`
           }),
           input: {
-            className: 'pl-12 laptop:pl-20 pr-14 text-ellipsis placeholder:dark:text-grey-soft placeholder:text-grey-medium size-full outline-none bg-transparent'
+            className: 'pl-12 laptop:pl-20 pr-14 text-ellipsis placeholder:dark:text-grey-soft placeholder:text-grey-medium size-full outline-none bg-transparent',
+            "aria-labelledby": 'search-country-dropdown'
           },
           trigger: (dropdown) => ({
             className: `${dropdown?.state.overlayVisible ? 'block opacity-100' : 'hidden opacity-0'} ${trigger} starting:opacity-0 transition-all duration-300 transition-discrete`,
@@ -88,6 +92,9 @@ export function Search({term, setTerm, children}: Props) {
             className: `${item(items?.context.selected)} ${items?.context.disabled ? 'pointer-events-none' : ''}`,
             onClick: () => dropdownRef.current?.getFocusInput().blur()
           }),
+          select: {
+            "aria-labelledby": 'search-country-dropdown'
+          },
           ...rest
         }}
       />

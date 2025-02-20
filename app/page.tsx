@@ -10,8 +10,12 @@ export type NameBase = {
   official: string
 }
 
+export type NativeName = {
+  [key: string]: NameBase
+}
+
 export interface NameRaw extends NameBase {
-  nativeName: NameBase
+  nativeName: NativeName
 }
 
 export type Flags = {

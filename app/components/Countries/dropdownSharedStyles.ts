@@ -16,7 +16,7 @@ export const dropdownSharedStyles: SharedStylesType = {
   panel: {
     className: `h-52 w-full overflow-x-hidden dark:bg-grey-light bg-white-light rounded-md !left-0 !top-0`
   },
-  item: (selected) => `${selected ? 'bg-blue-light dark:text-grey-light' : ''} outline-none transition-colors duration-150`,
+  item: (selected) => `${selected ? 'bg-blue-selected dark:text-grey-light' : 'hover:bg-blue-light hover:dark:text-grey-light'} outline-none transition-colors duration-150`,
   list: {
     className: 'py-2'
   },

@@ -29,6 +29,18 @@ export function Countries({children}: {children: CountiesChildren[]}) {
     })
   }, [term, region])
 
+  const fallback = () => {
+    if (children.length === 0) return (
+      <p className='pt-10 md:pt-20 col-span-full w-full text-center text-balance text-3xl md:text-5xl dark:text-white-default text-black'>
+        Sorry, the service is currently unavailable. Please try again later.
+      </p>
+    )
+
+    return (
+      <>{countriesToShow.map((country) => country.countryCard)}</>
+    )
+  }
+
   return (
     <div className='container mt-14'>
       <div className='grid gap-x-20 laptop:gap-x-14 desktop:gap-x-16 gap-y-14 laptop:gap-y-16 grid-cols-1 justify-items-center md:grid-cols-[repeat(auto-fill,_275px)] justify-center'>
@@ -39,12 +51,9 @@ export function Countries({children}: {children: CountiesChildren[]}) {
           >
             {options}
           </Search>
-          <FilterByRegion
-            region={region}
-            setRegion={setRegion}
-          />
+          <FilterByRegion setRegion={setRegion}/>
         </div>
-        {countriesToShow.map((country) => country.countryCard)}
+        {fallback()}
       </div>
     </div>
   )
