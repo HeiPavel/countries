@@ -17,12 +17,14 @@ const transition = {
 export function Country({countryData, borders}: Props) {
   const {name, nativeName, population, region, subregion, capital, tld, currencies, languages, flags} = countryData
 
+  const uniqueNativeNames = [...new Set(nativeName)]
+
   const baseCountryInfo = {
-    'Native Name': nativeName.length > 1 ? nativeName: nativeName.join(''),
+    'Native Name': uniqueNativeNames.length > 1 ? uniqueNativeNames : uniqueNativeNames.join(''),
     'Population': (population).toLocaleString('en-US'),
     'Region': region,
     'Sub Region': subregion,
-    'Capital': capital.length > 1 ? capital: capital.join('')
+    'Capital': capital.length > 1 ? capital : capital.join('')
   }
 
   const secondaryCountryInfo = {
