@@ -36,6 +36,7 @@ export function CountryCard({cardData}: {cardData: CountryPreview}) {
                 key={index}
                 fieldName={fieldName}
                 value={value}
+                isCard={true}
               />
             })
           }

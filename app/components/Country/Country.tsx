@@ -2,6 +2,7 @@ import Image from 'next/image'
 import { CountryFullPreview, BorderCountry } from '@/app/country/[code]/page'
 import { Description } from './Description'
 import { Borders } from './Borders'
+import { checkListLength } from '@/app/util/checkListLength'
 import * as motion from 'motion/react-client'
 
 type Props = {
@@ -20,17 +21,17 @@ export function Country({countryData, borders}: Props) {
   const uniqueNativeNames = [...new Set(nativeName)]
 
   const baseCountryInfo = {
-    'Native Name': uniqueNativeNames.length > 1 ? uniqueNativeNames : uniqueNativeNames.join(''),
+    'Native Name': checkListLength(uniqueNativeNames),
     'Population': (population).toLocaleString('en-US'),
     'Region': region,
     'Sub Region': subregion,
-    'Capital': capital.length > 1 ? capital : capital.join('')
+    'Capital': checkListLength(capital)
   }
 
   const secondaryCountryInfo = {
-    'Top Level Domain': tld.join(', '),
-    'Currencies': currencies.length > 1 ? currencies : currencies.join(''),
-    'Languages': languages.length > 1 ? languages : languages.join('')
+    'Top Level Domain': checkListLength(tld),
+    'Currencies': checkListLength(currencies),
+    'Languages': checkListLength(languages)
   }
 
   return (
