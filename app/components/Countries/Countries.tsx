@@ -33,11 +33,20 @@ export function Countries({children}: {children: CountiesChildren[]}) {
   }, [term, region])
 
   useEffect(() => {
+    const scrollTop = Number(window.sessionStorage.getItem('scrollTop'))
+    if (scrollTop > 0) window.scrollTo({top: scrollTop})
+    
     const clearSessionStorage = () => window.sessionStorage.clear()
+    const restoreScroll = () => window.sessionStorage.setItem('scrollTop', window.scrollY.toString())
 
     window.addEventListener('beforeunload', clearSessionStorage)
+    window.addEventListener('scrollend', restoreScroll)
 
-    return () => window.removeEventListener('beforeunload', clearSessionStorage)
+    return () => {
+      window.removeEventListener('beforeunload', clearSessionStorage)
+      window.removeEventListener('scrollend', restoreScroll)
+      window.scrollTo({top: 0})
+    }
   }, [])
 
   useEffect(() => {
@@ -65,7 +74,7 @@ export function Countries({children}: {children: CountiesChildren[]}) {
     )
   }
 
-  if (!isMounted) return <></>
+  if (!isMounted) return <div className='h-[105000px]'></div>
 
   return (
     <div className='container mt-14'>
