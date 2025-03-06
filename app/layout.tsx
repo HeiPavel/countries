@@ -11,7 +11,15 @@ const nunito = Nunito_Sans({
 })
 
 export const metadata: Metadata = {
-  title: 'Countries'
+  metadataBase: process.env.VERCEL_ENV === 'production' ? new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) : process.env.VERCEL_ENV === 'preview' ? new URL(`https://${process.env.VERCEL_BRANCH_URL}`) : new URL('http://localhost:3000'),
+  title: {
+    default: 'Countries info',
+    template: '%s | Countries info'
+  },
+  description: 'Explore and discover countries worldwide with key information at your fingertips. Search, filter by region, and learn essential details about any country in just a few clicks.',
+  twitter: {
+    card: 'summary_large_image'
+  }
 }
 
 export default function RootLayout({

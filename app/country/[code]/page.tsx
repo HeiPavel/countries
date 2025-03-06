@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { CountryRaw, NameRaw } from '@/app/page'
 import { Country } from '@/app/components/Country/Country'
 import { FaArrowLeftLong } from 'react-icons/fa6'
+import type { Metadata } from 'next'
 
 export type Params = {
   params: Promise<{code: string}>
@@ -43,6 +44,26 @@ export type BorderCountryRaw = {
 export type BorderCountry = {
   name: string
   cca3: string
+}
+
+export async function generateMetadata({params}: Params): Promise<Metadata> {
+  const code = (await params).code.toUpperCase()
+  const countryDataRaw: CountryFullPreviewRaw[] = await fetch(`https://restcountries.com/v3.1/alpha?codes=${code}&fields=name,population,region,subregion,capital,tld,currencies,languages,borders,flags`).then(res => res.json())
+  const {name, flags} = countryDataRaw[0]
+
+  return {
+    title: name.common,
+    description: `Discover key facts about ${name.common}, including its population, region, capital, and more. Get essential information in one place.`,
+    openGraph: {
+      images: [
+        {
+          url: flags.png,
+          width: 800,
+          height: 600
+        }
+      ]
+    }
+  }
 }
 
 export default async function CountryPage({params}: Params) {
