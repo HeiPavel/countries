@@ -51,7 +51,7 @@ export async function generateMetadata({params}: Params): Promise<Metadata> {
   const code = (await params).code.toUpperCase()
   const response = await fetch(`https://restcountries.com/v3.1/alpha?codes=${code}&fields=name,population,region,subregion,capital,tld,currencies,languages,borders,flags`)
 
-  if (response.status === 400) return {}
+  if (response.status === 400 || response.status === 404) return {}
   
   const countryDataRaw: CountryFullPreviewRaw[] = await response.json()
   const {name, flags} = countryDataRaw[0]
@@ -79,7 +79,7 @@ export default async function CountryPage({params}: Params) {
 
   const response = await fetch(`https://restcountries.com/v3.1/alpha?codes=${code}&fields=name,population,region,subregion,capital,tld,currencies,languages,borders,flags`)
 
-  if (response.status === 400) notFound()
+  if (response.status === 400 || response.status === 404) notFound()
 
   const countryDataRaw: CountryFullPreviewRaw[] = await response.json()
   const {name, currencies, languages, borders, ...rest} = countryDataRaw[0]
