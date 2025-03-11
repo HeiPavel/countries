@@ -1,8 +1,5 @@
 import { MetadataRoute } from 'next'
-
-type Code = {
-  cca3: string
-}
+import { Code } from './country/[code]/page'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const protocol = process.env.VERCEL_ENV === 'development' ? 'http://' : 'https://'
