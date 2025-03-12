@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   description: 'Explore and discover countries worldwide with key information at your fingertips. Search, filter by region, and learn essential details about any country in just a few clicks.',
   twitter: {
     card: 'summary_large_image'
+  },
+  verification: {
+    google: 'zm1RyOb1pXk-onkAmaiQy3K6rIczA99wKk4vLZun4gg'
   }
 }
 
