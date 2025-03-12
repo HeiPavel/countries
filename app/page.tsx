@@ -46,7 +46,7 @@ export type CountiesChildren = {
   option: React.ReactNode
 }
 
-export const revalidate = 2592000
+export const revalidate = 15552000
 
 export default async function CountriesMain() {
   const countriesRaw = await fetchAllCountries()

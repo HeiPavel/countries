@@ -14,7 +14,7 @@ export const dropdownSharedStyles: SharedStylesType = {
   root: (isFocused) => `relative flex items-center size-full dark:bg-grey-light bg-white-light rounded-md border border-transparent hover:border-blue-default transition-all duration-200 ${isFocused ? 'shadow-input' : ''}`,
   trigger: 'absolute right-0 pl-1 pr-3',
   panel: {
-    className: `h-52 w-full overflow-x-hidden dark:bg-grey-light bg-white-light rounded-md !left-0 !top-0`
+    className: `h-52 w-full overflow-x-hidden dark:bg-grey-light bg-white-light rounded-md !left-0 !top-0 will-change-transform`
   },
   item: (selected) => `${selected ? 'bg-blue-selected dark:text-grey-light' : 'hover:bg-blue-light hover:dark:text-grey-light'} outline-none transition-colors duration-150`,
   list: {

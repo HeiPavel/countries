@@ -2,6 +2,8 @@ import Link from 'next/link'
 import { CountryRaw, NameRaw } from '@/app/page'
 import { Country } from '@/app/components/Country/Country'
 import { FaArrowLeftLong } from 'react-icons/fa6'
+import type { Metadata } from 'next'
+import { notFound } from 'next/navigation'
 
 export type Params = {
   params: Promise<{code: string}>
@@ -45,10 +47,55 @@ export type BorderCountry = {
   cca3: string
 }
 
+export type Code = {
+  cca3: string
+}
+
+export const revalidate = 15552000
+
+export const dynamicParams = true
+
+export async function generateMetadata({params}: Params): Promise<Metadata> {
+  const code = (await params).code.toUpperCase()
+  const response = await fetch(`https://restcountries.com/v3.1/alpha?codes=${code}&fields=name,population,region,subregion,capital,tld,currencies,languages,borders,flags`)
+
+  if (response.status === 400 || response.status === 404) return {}
+  
+  const countryDataRaw: CountryFullPreviewRaw[] = await response.json()
+  const {name, flags} = countryDataRaw[0]
+
+  return {
+    title: name.common,
+    description: `Discover key facts about ${name.common}, including its population, region, capital, and more. Get essential information in one place.`,
+    openGraph: {
+      images: [
+        {
+          url: flags.png,
+          width: 800,
+          height: 600
+        }
+      ]
+    },
+    twitter: {
+      card: 'summary_large_image'
+    }
+  }
+}
+
+export async function generateStaticParams() {
+  const codes: Code[] = await fetch('https://restcountries.com/v3.1/all?fields=cca3').then(res => res.json())
+
+  return codes.map(country => ({code: country.cca3}))
+}
+
 export default async function CountryPage({params}: Params) {
   const code = (await params).code.toUpperCase()
 
-  const countryDataRaw: CountryFullPreviewRaw[] = await fetch(`https://restcountries.com/v3.1/alpha?codes=${code}&fields=name,population,region,subregion,capital,tld,currencies,languages,borders,flags`).then(res => res.json())
+  const response = await fetch(`https://restcountries.com/v3.1/alpha?codes=${code}&fields=name,population,region,subregion,capital,tld,currencies,languages,borders,flags`)
+
+  if (response.status === 400 || response.status === 404) notFound()
+
+  const countryDataRaw: CountryFullPreviewRaw[] = await response.json()
   const {name, currencies, languages, borders, ...rest} = countryDataRaw[0]
   const nativeNames = Object.values(name.nativeName)
   const currenciesToPreview = Object.values(currencies).map(currency => currency.name)

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, KeyboardEventHandler, MouseEventHandler } from 'react'
+import { useMounted } from '../hooks/useMounted'
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown'
 import { usePrimeStylesReady } from '../hooks/usePrimeStylesReady'
 import { ClearIcon } from './ClearIcon'
@@ -19,6 +20,7 @@ type Props = {
 
 export function Search({term, setTerm, children}: Props) {
   const isPrimeStylesLoaded = usePrimeStylesReady()
+  const isMounted = useMounted()
   const [value, setValue] = useState('')
   const dropdownRef = useRef<Dropdown>(null)
   const overlayContainerRef = useRef<HTMLDivElement>(null)
@@ -48,8 +50,14 @@ export function Search({term, setTerm, children}: Props) {
   }]
 
   useEffect(() => {
+    setValue(term)
+  }, [])
+
+  useEffect(() => {
+    if (!isMounted) return
+
     const timeoutID = setTimeout(() => {
-      setTerm(value.toLowerCase())
+      setTerm(value)
     }, 300)
 
     return () => clearTimeout(timeoutID)

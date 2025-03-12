@@ -18,6 +18,7 @@ export function Description({data}: {data: DescriptionType}) {
                 key={index}
                 fieldName={fieldName}
                 value={value}
+                isCard={false}
               />
             )
           } else {

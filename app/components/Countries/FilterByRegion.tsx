@@ -1,12 +1,14 @@
 'use client'
 
 import { useState, useEffect, useRef, MouseEvent } from 'react'
+import { useMounted } from '../hooks/useMounted'
 import { Dropdown, DropdownChangeEvent } from 'primereact/dropdown'
 import { usePrimeStylesReady } from '../hooks/usePrimeStylesReady'
 import { ClearIcon } from './ClearIcon'
 import { dropdownSharedStyles } from './dropdownSharedStyles'
 
 type Props = {
+  region: string
   setRegion: (region: string) => void
 }
 
@@ -23,8 +25,9 @@ const options = [
   {region: 'Oceania'}
 ]
 
-export function FilterByRegion({setRegion}: Props) {
+export function FilterByRegion({region, setRegion}: Props) {
   const isPrimeStylesLoaded = usePrimeStylesReady()
+  const isMounted = useMounted()
   const [value, setValue] = useState('')
   const dropdownRef = useRef<Dropdown>(null)
   const overlayContainerRef = useRef<HTMLDivElement>(null)
@@ -51,6 +54,12 @@ export function FilterByRegion({setRegion}: Props) {
   const template = (option: FilterTemplate) => <p className='px-6 py-3 cursor-pointer'>{option.region}</p>
 
   useEffect(() => {
+    setValue(region)
+  }, [])
+
+  useEffect(() => {
+    if (!isMounted) return
+
     const timeoutID = setTimeout(() => {
       setRegion(value)
     }, 200)
