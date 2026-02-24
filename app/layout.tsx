@@ -10,8 +10,10 @@ const nunito = Nunito_Sans({
   weight: ['300', '400', '700']
 })
 
+const project_url = process.env.VERCEL_ENV === 'production' ? new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) : process.env.VERCEL_ENV === 'preview' ? new URL(`https://${process.env.VERCEL_BRANCH_URL}`) : new URL('http://localhost:3000')
+
 export const metadata: Metadata = {
-  metadataBase: process.env.VERCEL_ENV === 'production' ? new URL(`https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`) : process.env.VERCEL_ENV === 'preview' ? new URL(`https://${process.env.VERCEL_BRANCH_URL}`) : new URL('http://localhost:3000'),
+  metadataBase: project_url,
   title: {
     default: 'Countries info',
     template: '%s | Countries info'
@@ -22,6 +24,9 @@ export const metadata: Metadata = {
   },
   verification: {
     google: 'zm1RyOb1pXk-onkAmaiQy3K6rIczA99wKk4vLZun4gg'
+  },
+  alternates: {
+    canonical: project_url
   }
 }
 
