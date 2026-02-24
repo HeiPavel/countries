@@ -64,6 +64,9 @@ export async function generateMetadata({params}: Params): Promise<Metadata> {
   const countryDataRaw: CountryFullPreviewRaw[] = await response.json()
   const {name, flags} = countryDataRaw[0]
 
+  const protocol = process.env.VERCEL_ENV === 'development' ? 'http://' : 'https://'
+  const baseURL = process.env.VERCEL_ENV === 'production' ? process.env.VERCEL_PROJECT_PRODUCTION_URL : process.env.VERCEL_ENV === 'preview' ? process.env.VERCEL_BRANCH_URL : 'localhost:3000'
+
   return {
     title: name.common,
     description: `Discover key facts about ${name.common}, including its population, region, capital, and more. Get essential information in one place.`,
@@ -78,6 +81,9 @@ export async function generateMetadata({params}: Params): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image'
+    },
+    alternates: {
+      canonical: `${protocol}${baseURL}/country/${code}`
     }
   }
 }
